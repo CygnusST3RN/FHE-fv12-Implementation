@@ -7,13 +7,17 @@ fv12 = FV12(params)
 public_key, private_key = fv12.generate_keys()
 a=random.randint(-10,10)
 b=random.randint(-10,10)
-start = time.perf_counter()
 x=public_key.encrypt(a)
 y=public_key.encrypt(b)
+start = time.perf_counter()
 sum_ans=private_key.decrypt(x+y)
-sub_ans=private_key.decrypt(x-y)
-mul_ans=private_key.decrypt(x*y)
 end=time.perf_counter()
+start1=time.perf_counter()
+sub_ans=private_key.decrypt(x-y)
+end1=time.perf_counter()
+start2=time.perf_counter()
+mul_ans=private_key.decrypt(x*y)
+end2=time.perf_counter()
 print("The two numbers are: ",a,b)
 if(sum_ans==a+b):
     print("Addition passed")
@@ -31,8 +35,14 @@ if(mul_ans==a*b):
 else:
     print("Multiplication failed")
     
-end = time.perf_counter()
 ms = (end-start) * 10**6
-print(f"Elapsed {ms:.03f} micro secs.")
+print(f"Time for addition {ms:.03f} micro secs.")
+
+ms1 = (end1-start1) * 10**6
+print(f"Time for subtraction {ms1:.03f} micro secs.")
+
+ms2 = (end2-start2) * 10**6
+print(f"Time for multiplication {ms2:.03f} micro secs.")
+
 
 
