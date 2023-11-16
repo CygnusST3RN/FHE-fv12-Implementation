@@ -1,6 +1,6 @@
 import math
 import random
-
+import copy
 
 class Polynomial():
     def __init__(self, arr):
@@ -11,31 +11,31 @@ class Polynomial():
             if (arr[i] != 0):
                 self.poly[i] = arr[i]
 
-    def __add__(self, other):
-
-        res = Polynomial([])
+    def _add_(self, other):
         del_list = []
         if (isinstance(other, Polynomial)):
+            res=copy.deepcopy(self)
             for deg in other.poly:
                 coeff = other.poly[deg]
-                if (deg in self.poly):
-                    self.poly[deg] += coeff
-                    if (self.poly[deg] == 0):
+                if(deg in res.poly):
+                    res.poly[deg]+=coeff
+                    if (res.poly[deg] == 0):
                         del_list.append(deg)
                 else:
-                    self.poly[deg] = coeff
+                    res.poly[deg]=coeff
             for del_key in del_list:
-                del self.poly[del_key]
-            return self
-
+                del res.poly[del_key]
+            return res
+## If other is not a polynomial
         else:
-            if (0 in self.poly):
-                self.poly[0] += other
-                if (self.poly[0] == 0):
-                    del self.poly[0]
+            res=copy.deepcopy(self)
+            if (0 in res.poly):
+                res.poly[0] += other
+                if (res.poly[0] == 0):
+                    del res.poly[0]
             else:
-                self.poly[0] = other
-            return self
+                res.poly[0] = other
+            return res
 
     def convert_to_list(self):
         res = []
@@ -54,26 +54,28 @@ class Polynomial():
     def __sub__(self, other):
         if (isinstance(other, Polynomial)):
             del_list = []
+            res=copy.deepcopy(self)
             for deg in other.poly:
                 coeff = other.poly[deg]
-                if (deg in self.poly):
-                    self.poly[deg] -= coeff
-                    if (self.poly[deg] == 0):
+                if (deg in res.poly):
+                    res.poly[deg] -= coeff
+                    if (res.poly[deg] == 0):
                         del_list.append(deg)
                 else:
-                    self.poly[deg] = - coeff
+                    res.poly[deg] = - coeff
             for key in del_list:
-                del self.poly[key]
-            return self
+                del res.poly[key]
+            return res
 
         else:
-            if (0 in self.poly):
-                self.poly[0] -= other
-                if (self.poly[0] == 0):
-                    del self.poly[0]
+            res=copy.deepcopy(self)
+            if (0 in res.poly):
+                res.poly[0] -= other
+                if (res.poly[0] == 0):
+                    del res.poly[0]
             else:
-                self.poly[0] = -other
-            return self
+                res.poly[0] = -other
+            return res
 
     def __getitem__(self, key):
         return self.poly[key]
@@ -81,38 +83,40 @@ class Polynomial():
     def __mod__(self, other):
 
         if (isinstance(other, Polynomial)):
-            self.degree = 0
-            for key in self.poly:
-                if key > self.degree:
-                    self.degree = key
+            res=copy.deepcopy(self)
+            res.degree = 0
+            for key in res.poly:
+                if key > res.degree:
+                    res.degree = key
             other.degree = 0
             for key in other.poly:
                 if key > other.degree:
                     other.degree = key
-            while (self.degree >= other.degree):
-                mult = self.poly[self.degree]
-                if (self.degree-other.degree in self.poly):
-                    self.poly[self.degree-other.degree] -= mult
-                    if (self.poly[self.degree-other.degree] == 0):
-                        del self.poly[self.degree-other.degree]
+            while (res.degree >= other.degree):
+                mult = res.poly[res.degree]
+                if (res.degree-other.degree in res.poly):
+                    res.poly[res.degree-other.degree] -= mult
+                    if (res.poly[res.degree-other.degree] == 0):
+                        del res.poly[res.degree-other.degree]
                 else:
-                    self.poly[self.degree-other.degree] = -mult
+                    res.poly[res.degree-other.degree] = -mult
 
-                del self.poly[self.degree]
-                i = self.degree-1
-                while i not in self.poly:
+                del res.poly[res.degree]
+                i = res.degree-1
+                while i not in res.poly:
                     i -= 1
-                self.degree = i
-            return self
+                res.degree = i
+            return res
         else:
             del_list = []
-            for key in self.poly:
-                self.poly[key] %= other
-                if (self.poly[key] == 0):
+            res=copy.deepcopy(self)
+            for key in res.poly:
+                res.poly[key] %= other
+                if (res.poly[key] == 0):
                     del_list.append(key)
             for key in del_list:
-                del self.poly[key]
-            return self
+                del res.poly[key]
+            return res
 
     def __floordiv__(self, other):
         if not isinstance(other, int):
@@ -130,9 +134,10 @@ class Polynomial():
         if not isinstance(other, int):
             raise Exception('Invalid Type')
         else:
-            for key in self.poly:
-                self.poly[key] = (self.poly[key] / other)
-            return self
+            res=copy.deepcopy(self)
+            for key in res.poly:
+                res.poly[key] = (res.poly[key] / other)
+            return res
 
     def __neg__(self):
         for key in self.poly:

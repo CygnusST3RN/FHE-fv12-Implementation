@@ -11,9 +11,10 @@ start = time.perf_counter()
 y=public_key.encrypt(x)
 z=private_key.decrypt(y)
 end=time.perf_counter()
+
 print("Plaintext: ",x)
 print("Ciphertext: ",y)
-end = time.perf_counter()
+
 if(x==z):
     print("Passed")
     print("Plaintext after decoding: ",z)

@@ -5,20 +5,26 @@ import time
 params = Params(2**4, 2, 2**21, 2**63)
 fv12 = FV12(params)
 public_key, private_key = fv12.generate_keys()
+
 a=random.randint(-10,10)
 b=random.randint(-10,10)
 x=public_key.encrypt(a)
 y=public_key.encrypt(b)
+
 start = time.perf_counter()
 sum_ans=private_key.decrypt(x+y)
 end=time.perf_counter()
+
 start1=time.perf_counter()
 sub_ans=private_key.decrypt(x-y)
 end1=time.perf_counter()
+
 start2=time.perf_counter()
 mul_ans=private_key.decrypt(x*y)
 end2=time.perf_counter()
+
 print("The two numbers are: ",a,b)
+
 if(sum_ans==a+b):
     print("Addition passed")
     print(sum_ans)
