@@ -11,7 +11,7 @@ class Polynomial():
             if (arr[i] != 0):
                 self.poly[i] = arr[i]
 
-    def _add_(self, other):
+    def __add__(self, other):
         del_list = []
         if (isinstance(other, Polynomial)):
             res=copy.deepcopy(self)
