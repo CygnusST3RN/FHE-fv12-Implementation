@@ -2,7 +2,7 @@ from BFV_Scheme.bfv import Params,FV12,CipherText
 import random
 import time
 
-params = Params(2**4, 2, 2**21, 2**63)
+params = Params(2**3, 2, 2**21, 2**63)
 fv12 = FV12(params)
 public_key, private_key = fv12.generate_keys()
 

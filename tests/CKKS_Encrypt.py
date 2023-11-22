@@ -33,9 +33,12 @@ a=random.randint(-10,10)
 start = time.perf_counter()
 a_pt=encode_value(a,scale)
 a_encrypted=public_key.encrypt(a_pt)
+end=time.perf_counter()
+start1=time.perf_counter()
 a_decrypted=private_key.decrypt(a_encrypted)
 a_decoded=decode_poly(a_decrypted)
-end=time.perf_counter()
+end1=time.perf_counter()
+
 
 print("Plaintext ",a)
 print("Encrypted value ",a_encrypted)
@@ -47,4 +50,7 @@ else:
     print("Failed")
 
 ms = (end-start) * 10**6
-print(f"Elapsed {ms:.03f} micro secs.")
+print(f"Encyption time {ms:.03f} micro secs.")
+
+ms1 = (end1-start1) * 10**6
+print(f"Decryption time {ms1:.03f} micro secs.")
